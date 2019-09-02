@@ -1,3 +1,11 @@
+# nginx-proxy
+
+## Verwendung in der unixAG Zweibrücken
+
+Um dieses Image im Rahmen der Portal-Architektur zu verwenden, genügt es, dieses Repository nach `/etc/portal/images/nginx-proxy` zu klonen und `portal build nginx-proxy` auszuführen. Das Image ist dann in der Registry unter dem Namen `localhost:5000/unixag-zw/nginx-proxy` verfügbar.
+
+## Ursprüngliche Dokumentation
+
 ![nginx 1.13](https://img.shields.io/badge/nginx-1.13-brightgreen.svg) ![License MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![Build Status](https://travis-ci.org/jwilder/nginx-proxy.svg?branch=master)](https://travis-ci.org/jwilder/nginx-proxy) [![](https://img.shields.io/docker/stars/jwilder/nginx-proxy.svg)](https://hub.docker.com/r/jwilder/nginx-proxy 'DockerHub') [![](https://img.shields.io/docker/pulls/jwilder/nginx-proxy.svg)](https://hub.docker.com/r/jwilder/nginx-proxy 'DockerHub')
 
 

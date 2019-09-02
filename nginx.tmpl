@@ -1,7 +1,7 @@
 {{ $CurrentContainer := where $ "ID" .Docker.CurrentContainerID | first }}
 
 {{ define "upstream" }}
-		## Can be connect with "{{ .Network.Name }}" network
+		## Can be connected with "{{ .Network.Name }}" network
 	{{ if .Address }}
 		{{/* If we got the containers from swarm and this container's port is published to host, use host IP:PORT */}}
 		{{ if and .Container.Node.ID .Address.HostPort }}
@@ -321,10 +321,11 @@ server {
 			{{ $upstream := printf "%s-%s" $host $sum }}
 			
 			{{ $container := index $containers 0}}
-			{{ $pathDest := $container.Env.VIRTUAL_PATH_DEST }}
-			
-			{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "Vhostroot" $vhost_root "PathDest" $pathDest) }}
-			
+			{{ if $container.Env.VIRTUAL_PATH_DEST }}
+				{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "Vhostroot" $vhost_root "PathDest" $container.Env.VIRTUAL_PATH_DEST) }}
+			{{ else }}
+				{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "Vhostroot" $vhost_root "PathDest" $container.Env.VIRTUAL_PATH) }}
+			{{ end }}
 		{{ end }}
 	{{ end }}
 }
@@ -360,9 +361,11 @@ server {
 			{{ $upstream := printf "%s-%s" $upstream_name $sum }}
 			
 			{{ $container := index $containers 0}}
-			{{ $pathDest := $container.Env.VIRTUAL_PATH_DEST }}
-
-			{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "Vhostroot" $vhost_root "PathDest" $pathDest) }}
+			{{ if $container.Env.VIRTUAL_PATH_DEST }}
+				{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "Vhostroot" $vhost_root "PathDest" $container.Env.VIRTUAL_PATH_DEST) }}
+			{{ else }}
+				{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "Vhostroot" $vhost_root "PathDest" $container.Env.VIRTUAL_PATH) }}
+			{{ end }}
 		{{ end }}
 	{{ end }}
 }
